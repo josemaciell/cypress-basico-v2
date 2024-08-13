@@ -56,19 +56,72 @@ describe('Central de Atendimento ao Cliente TAT', function() {
           .clear().should('have.value', '')
     })
 
-    it.only('exibe mensagem de erro ao submeter o formulário sem preencher os campos obrigatórios', function() {
+    it('exibe mensagem de erro ao submeter o formulário sem preencher os campos obrigatórios', function() {
         cy.get('button[type="submit"]').click()
         cy.get('.error').should('be.visible') 
     })
 
     it('envia o formuário com sucesso usando um comando customizado', function() {
+        cy.fillMandatoryFieldsAndSubmit()
+        cy.get('.success').should('be.visible')
+    })
+
+    it('envia o formuário com sucesso usando um segundo comando customizado', function() {
+        cy.preencherCamposObrigatorios('Brenda', 'Silva', 'brenda.s3@gmail.com', 'teste')
+        cy.get('.success').should('be.visible')
+    })
+
+    it('Identificando elementos com cy.contains', function() {
+        cy.get('#firstName').type('Jose')
+        cy.get('#lastName').type('Maciel', { log: false })
+        cy.get('#email').type('jlmp.mao@gmail.com')
+        cy.get('#open-text-area').type('Teste')
+        cy.contains('button', 'Enviar').click()
+    })
+
+    it('seleciona um produto (YouTube) por seu texto', function() {
         cy.get('#firstName').type('Jose')
         cy.get('#lastName').type('Maciel')
         cy.get('#email').type('jlmp.mao@gmail.com')
-        cy.get('#phone-checkbox').click()
-        cy.get('#open-text-area').type('teste', {delay:0})
-        cy.get('button[type="submit"]').click()
-        cy.get('.error').should('be.visible') 
+        cy.get('#open-text-area').type('teste')
+        cy.get('#product').select('YouTube').should('have.value', 'youtube')
+        // cy.get('button[type="submit"]').click()
+        // cy.get('.success').should('be.visible')
     })
+
+    it('seleciona um produto 3 por seu indice', function() {
+        cy.get('#firstName').type('Jose')
+        cy.get('#lastName').type('Maciel')
+        cy.get('#email').type('jlmp.mao@gmail.com')
+        cy.get('#open-text-area').type('teste')
+        cy.get('select').select(3).should('have.value', 'mentoria')
+
+    })
+
+    it('seleciona um produto (Blog) por seu valor (value)', function() {
+        cy.get('#firstName').type('Jose')
+        cy.get('#lastName').type('Maciel')
+        cy.get('#email').type('jlmp.mao@gmail.com')
+        cy.get('#open-text-area').type('teste')
+        cy.get('select').select('Blog').should('have.value', 'blog')
+
+    })
+
+    it('marca o tipo de atendimento "Feedback"', function() {
+        cy.get('input[type="radio"][value="feedback"]')
+          .check()
+          .should('have.value', 'feedback')
+    })
+    
+    it.only('marca cada tipo de atendimento', function() {
+        cy.get('input[type="radio"]')
+          .should('have.length', 3)
+          .each(function($radio){
+            cy.wrap($radio).check()
+            cy.wrap($radio).should('be.checked')
+          })
+    })
+
+
   })
 
