@@ -10,6 +10,10 @@
     "type": "git",
     "url": "git+https://github.com/wlsf82/cypress-basico-v2.git"
   },
+  "scripts": {
+  "cy:open": "cypress open",
+  "test": "cypress run"
+},
   "keywords": [
     "Testing",
     "Cypress.io",
@@ -19,5 +23,8 @@
   ],
   "author": "Walmyr Filho <wlsf82@gmail.com> (https://walmyr.dev/)",
   "license": "MIT",
-  "homepage": "https://github.com/wlsf82/cypress-basico-v2#readme"
+  "homepage": "https://github.com/wlsf82/cypress-basico-v2#readme",
+  "dependencies": {
+    "cypress": "^13.13.2"
+  }
 }
